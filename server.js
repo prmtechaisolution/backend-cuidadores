@@ -1,3 +1,6 @@
+app.get("/", (req, res) => {
+  res.send("API Cuidadores rodando 🚀");
+});
 const express = require("express");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
