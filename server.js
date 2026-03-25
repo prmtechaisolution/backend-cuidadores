@@ -3,7 +3,7 @@ const cors = require("cors");
 
 // 👇 ADICIONE ISSO AQUI (NO TOPO)
 const { execSync } = require("child_process");
-execSync("npx prisma db push", { stdio: "inherit" });
+//execSync("npx prisma db push", { stdio: "inherit" });
 
 // 👇 DEPOIS disso importa o Prisma
 const { PrismaClient } = require("@prisma/client");
