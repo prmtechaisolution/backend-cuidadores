@@ -1,63 +1,60 @@
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
-model Empresa {
-  id   Int    @id @default(autoincrement())
-  nome String
-}
-
-model Usuario {
-  id        Int    @id @default(autoincrement())
-  email     String @unique
-  senha     String
-  role      String
-  empresaId Int
+datasource db {
+  provider = "postgresql" // ajuste se estiver usando outro banco
+  url      = env("DATABASE_URL")
 }
 
 model Cuidador {
-  id         Int     @id @default(autoincrement())
-  nome       String
-  valorHora  Float
-  chavePix   String?
-  empresaId  Int
-}
+  id        Int      @id @default(autoincrement())
+  nome      String
+  chavePix  String?
 
-model Cliente {
-  id    Int    @id @default(autoincrement())
-  nome  String
-  email String?
+  escalas   Escala[]
+
+  createdAt DateTime @default(now())
 }
 
 model Contrato {
-  id                  Int     @id @default(autoincrement())
-  clienteId           Int
-  assistido           String
-  valor               Float
-  enderecoContratante String
-  enderecoAssistido   String
-  empresaId           Int
+  id              Int      @id @default(autoincrement())
+
+  // Dados do assistido
+  nomeAssistido   String
+  documento       String?
+
+  // Endereço
+  endereco        String
+  numero          String
+  complemento     String?
+  bairro          String
+  cidade          String
+  estado          String
+  cep             String
+
+  // Controle
+  ativo           Boolean  @default(true)
+  createdAt       DateTime @default(now())
+
+  escalas         Escala[]
 }
 
-model Agendamento {
-  id         Int      @id @default(autoincrement())
-  contratoId Int
-  cuidadorId Int
-  dataInicio DateTime
-  dataFim    DateTime
-}
+model Escala {
+  id           Int      @id @default(autoincrement())
 
-model Financeiro {
-  id          Int     @id @default(autoincrement())
-  tipo        String
-  valor       Float
-  previstoEm  DateTime?
-  realizadoEm DateTime?
-  categoria   String
-  empresaId   Int
+  cuidadorId   Int
+  contratoId   Int
+
+  data         DateTime
+  horas        Float
+  valorHora    Float
+
+  cuidador     Cuidador @relation(fields: [cuidadorId], references: [id])
+  contrato     Contrato @relation(fields: [contratoId], references: [id])
+
+  createdAt    DateTime @default(now())
+
+  @@index([cuidadorId])
+  @@index([contratoId])
 }
