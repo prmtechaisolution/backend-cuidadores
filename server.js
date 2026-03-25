@@ -1,14 +1,20 @@
 const express = require("express");
 const cors = require("cors");
+
+// 👇 ADICIONE ISSO AQUI (NO TOPO)
+const { execSync } = require("child_process");
+execSync("npx prisma db push", { stdio: "inherit" });
+
+// 👇 DEPOIS disso importa o Prisma
 const { PrismaClient } = require("@prisma/client");
 
-const app = express(); // ⚠️ PRIMEIRO cria o app
+const app = express();
 const prisma = new PrismaClient();
 
 app.use(cors());
 app.use(express.json());
 
-// ✅ ROTA TESTE (AGORA NO LUGAR CERTO)
+// ROTA TESTE
 app.get("/", (req, res) => {
   res.send("API Cuidadores rodando 🚀");
 });
@@ -26,7 +32,7 @@ app.post("/cuidadores", async (req, res) => {
   res.json(cuidador);
 });
 
-// ===== START =====
+// START
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
