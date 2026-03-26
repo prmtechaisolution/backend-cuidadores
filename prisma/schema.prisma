@@ -31,11 +31,8 @@ model Contratante {
 model Contrato {
   id              Int      @id @default(autoincrement())
 
-  // ===== CONTRATANTE =====
-  nomeContratante String
-  cpfContratante  String?
-  telefone        String?
-  email           String?
+  contratanteId   Int
+  contratante     Contratante @relation(fields: [contratanteId], references: [id])
 
   // ===== ASSISTIDO =====
   nomeAssistido   String
