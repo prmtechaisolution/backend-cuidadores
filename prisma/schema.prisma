@@ -14,6 +14,8 @@ model Cuidador {
   telefone  String?
   pix       String?
   createdAt DateTime @default(now())
+
+ escalas   Escala[] 
 }
 
 model Contratante {
