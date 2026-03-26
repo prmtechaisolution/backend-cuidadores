@@ -10,21 +10,38 @@ datasource db {
 model Cuidador {
   id        Int      @id @default(autoincrement())
   nome      String
-  chavePix  String?
-
-  escalas   Escala[]
-
+  cpf       String
+  telefone  String?
+  pix       String?
   createdAt DateTime @default(now())
+}
+
+model Contratante {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  cpf       String
+  telefone  String?
+  email     String?
+  endereco  String?
+  createdAt DateTime @default(now())
+
+  contratos Contrato[]
 }
 
 model Contrato {
   id              Int      @id @default(autoincrement())
 
-  // Dados do assistido
+  // ===== CONTRATANTE =====
+  nomeContratante String
+  cpfContratante  String?
+  telefone        String?
+  email           String?
+
+  // ===== ASSISTIDO =====
   nomeAssistido   String
   documento       String?
 
-  // Endereço
+  // ===== ENDEREÇO =====
   endereco        String
   numero          String
   complemento     String?
@@ -33,7 +50,7 @@ model Contrato {
   estado          String
   cep             String
 
-  // Controle
+  // ===== CONTROLE =====
   ativo           Boolean  @default(true)
   createdAt       DateTime @default(now())
 
